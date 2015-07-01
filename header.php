@@ -1,10 +1,9 @@
 <?php
+session_name('movies_session');
+session_start();
+
 require_once 'inc/func.php';
 require_once 'inc/db.php';
-
-// @FIXME : delete these lines
-//require_once 'inc/movies.php';
-//include_once 'inc/news_data.php';
 
 /*
 echo '<pre>';

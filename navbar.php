@@ -20,6 +20,7 @@
 					<li<?= $active ?>><a href="<?= $page_url ?>"><?= $page_name ?></a></li>
 					<?php } ?>
 				</ul>
+
 				<form class="navbar-form navbar-right" action="search.php" method="GET">
 					<div class="input-group">
 						<input name="search" type="text" class="form-control" placeholder="Recherche rapide...">
@@ -30,6 +31,16 @@
 						</span>
 					</div>
 				</form>
+
+				<ul class="nav navbar-nav navbar-right">
+					<?php if (!empty($_SESSION['user_id']))	{ ?>
+					<li><a>Bonjour <?= $_SESSION['firstname'] ?></a></li>
+					<li><a href="logout.php">Déconnexion</a></li>
+					<?php } else { ?>
+					<li><a href="login.php">Connexion</a></li>
+					<li><a href="register.php">Inscription</a></li>
+					<?php } ?>
+				</ul>
 			</div>
 		</div>
 	</nav>
