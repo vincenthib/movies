@@ -1,7 +1,6 @@
 <?php
 include_once 'header.php';
 include_once 'inc/news_data.php';
-
 ?>
 <div class="news-container">
 
@@ -13,22 +12,22 @@ include_once 'inc/news_data.php';
 	<div class="row">
 		<div class="col-xs-12 col-sm-9">
 
-			<?php foreach($news as $article) { ?>
+			<?php foreach($news as $key => $article) { ?>
 			<!-- NEWS POST -->
 			<div class="news-post">
 
 				<h2>
-					<a href="#"><?= $article['news_title'] ?></a>
+					<a href="article.php?id=<?= $key ?>"><?= ucfirst($article['news_title']) ?></a>
 				</h2>
 				<p><?= date('d/m/Y H:i:s', strtotime($article['news_date']))  ?></p>
 				<hr>
 				<blockquote>
 					<p>
-					<?= nl2br($article['news_text']) ?>
+					<?= nl2br(cutString($article['news_text'], 100)) ?>
 					</p>
 				</blockquote>
 
-				<a href="#">
+				<a href="article.php?id=<?= $key ?>">
 					Lire la suite
 				</a>
 

@@ -1,41 +1,91 @@
-<?php include_once 'header.php' ?>
+<?php
+include_once 'header.php';
 
-		<a href="index.html" class="btn btn-default" role="button">&laquo; Retour</a>
+if (!isset($_GET['id'])) {
+	exit('Undefined param id');
+}
 
-		<hr>
+$id = intval($_GET['id']);
 
-		<div class="row movie-container">
-			<div class="col-xs-12 col-sm-9">
+if (empty($movies[$id])) {
+	exit('Undefined movie');
+}
 
-				<img src="img/cover.png" align="left">
+$movie = $movies[$id];
+?>
+<a href="index.php" class="btn btn-default" role="button">&laquo; Retour</a>
 
-				<h2>Titre</h2>
+<hr>
 
+<div class="row movie-container">
+	<div class="col-xs-12 col-sm-9">
+		<div class="media">
+			<div class="media-left">
+				<img src="<?= getCover($movie['id']) ?>">
+			</div>
+			<div class="media-body">
+				<h2><?= $movie['title'] ?></h2>
 				<hr>
-
-				<p><strong>Date de sortie :</strong> 09 février 2014 (1h30min)</p>
-				<p><strong>Genres :</strong> Action, Thriller</p>
-				<p><strong>Acteurs :</strong> Bob Arctor, John Woo</p>
-				<p><strong>Réalisateurs :</strong> Bob Arctor, John Woo</p>
+				<p><strong>Date de sortie :</strong> <?= $movie['year'] ?> (<?= getDuration($movie['runtime']) ?>)</p>
+				<p>
+					<strong>Genres :</strong>&nbsp;
+					<?= $movie['genres'] ?>
+				</p>
+				<p>
+					<strong>Acteurs :</strong>&nbsp;
+					<?= $movie['actors'] ?>
+				</p>
+				<p>
+					<strong>Réalisateurs :</strong>&nbsp;
+					<?= $movie['directors'] ?>
+				</p>
 				<hr>
-				<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
 				<blockquote>
-					<p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+					<p>
+					<?= nl2br($movie['synopsis']) ?>
+					</p>
 				</blockquote>
-
 			</div>
+		</div>
+	</div>
 
-			<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+	<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
 
-				<div class="panel panel-default">
-					<div class="panel-heading">Films associés</div>
-					<div class="panel-body">
-						...
-					</div>
-				</div>
-
+		<div class="panel panel-primary">
+			<div class="panel-heading">Films des mêmes genres</div>
+			<div class="list-group">
+				<a href="#" class="list-group-item">1. Movie title</a>
+				<a href="#" class="list-group-item">2. Movie title</a>
+				<a href="#" class="list-group-item">3. Movie title</a>
+				<a href="#" class="list-group-item">4. Movie title</a>
+				<a href="#" class="list-group-item">5. Movie title</a>
 			</div>
-
 		</div>
 
-<?php include_once 'footer.php' ?>
+		<div class="panel panel-info">
+			<div class="panel-heading">Films des mêmes acteurs</div>
+			<div class="list-group">
+				<a href="#" class="list-group-item">1. Movie title</a>
+				<a href="#" class="list-group-item">2. Movie title</a>
+				<a href="#" class="list-group-item">3. Movie title</a>
+				<a href="#" class="list-group-item">4. Movie title</a>
+				<a href="#" class="list-group-item">5. Movie title</a>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Films des mêmes réalisateurs</div>
+			<div class="list-group">
+				<a href="#" class="list-group-item">1. Movie title</a>
+				<a href="#" class="list-group-item">2. Movie title</a>
+				<a href="#" class="list-group-item">3. Movie title</a>
+				<a href="#" class="list-group-item">4. Movie title</a>
+				<a href="#" class="list-group-item">5. Movie title</a>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<?php include_once 'footer.php'; ?>

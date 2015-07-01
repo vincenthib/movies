@@ -1,14 +1,14 @@
 <?php
 
 $news = array(
-  array('news_id' => '1','news_title' => 'Fusce suscipit mollis accumsan','news_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum efficitur cursus urna, non egestas magna imperdiet quis.
+  array('news_id' => '1','news_title' => 'fusce suscipit mollis accumsan','news_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum efficitur cursus urna, non egestas magna imperdiet quis.
 
 Nulla vitae pulvinar nulla. Nunc mollis mauris nisi, eu convallis dui tempus eget. Nullam semper risus eget urna molestie, quis aliquam orci fermentum. Integer hendrerit metus arcu, non varius neque molestie sed.
 
 Fusce suscipit mollis accumsan. Suspendisse mollis, libero a ultrices rutrum, tellus arcu tristique ipsum, ut ornare lectus dui at nisi.
 
 Maecenas et est lobortis, dapibus odio eget, sollicitudin eros. Sed quis sagittis orci. Curabitur sit amet tortor tempor ipsum bibendum vulputate in dapibus lacus. Mauris gravida tortor at eros luctus, quis dapibus lacus rhoncus. Donec lacus ligula, sodales in finibus faucibus, pellentesque eget nibh. In non tincidunt ipsum.','news_date' => '2015-01-14 14:13:42'),
-  array('news_id' => '2','news_title' => 'Donec ac est vel nisl consequat posuere ac vitae tortor','news_text' => 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed lacinia odio sit amet lobortis vestibulum. Donec sed quam et nisl semper vehicula non sed diam.
+  array('news_id' => '2','news_title' => 'donec ac est vel nisl consequat posuere ac vitae tortor','news_text' => 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed lacinia odio sit amet lobortis vestibulum. Donec sed quam et nisl semper vehicula non sed diam.
 
 Aliquam erat volutpat. Donec ac est vel nisl consequat posuere ac vitae tortor. Fusce sit amet sem lorem. Ut pharetra ultricies facilisis. Duis feugiat magna at interdum pellentesque.
 

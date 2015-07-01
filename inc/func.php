@@ -45,3 +45,11 @@ function cutString($text, $max_length = 0, $end = '...', $sep = '[@]') {
 	// On retourne la chaine de départ telle quelle
 	return $text;
 }
+
+function getDuration($duration) {
+
+	$hours = floor($duration / 60);
+	$minutes = $duration % 60;
+
+	return $hours.'h'.$minutes.'min';
+}
