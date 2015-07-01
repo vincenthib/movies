@@ -1,4 +1,5 @@
 <?php
+require_once 'inc/func.php';
 require_once 'inc/movies.php';
 
 /*

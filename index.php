@@ -2,7 +2,6 @@
 require_once 'header.php';
 
 $top_movies = array_slice($movies, 0, 8);
-
 ?>
 		<div class="row">
 
@@ -17,18 +16,26 @@ $top_movies = array_slice($movies, 0, 8);
 
 				<div class="row marketing">
 
-					<?php for ($i = 0; $i < 3; $i++) {  ?>
+					<?php
+					for ($i = 0; $i < 3; $i++) {
+
+						// On tire un nombre aléatoire entre 0 et le dernier élément du tableau (taille du tableau - 1)
+						//$random_key = mt_rand(0, count($movies) - 1);
+						// On va chercher une clé au hasard parmis les clés du tableau $movies
+						$random_key = array_rand($movies);
+						$movie = $movies[$random_key];
+					?>
 					<!-- BLOCK RANDOM MOVIE -->
 					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-						<img class="movie-thumbnail" src="img/cover.png" />
+						<img class="movie-thumbnail" src="<?= getCover($movie['id']) ?>" />
 						<div class="caption">
-							<h2>Movie title</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est urna, facilisis ac ipsum aliquet, tincidunt molestie orci. Fusce imperdiet elementum risus in fermentum.</p>
+							<h2><?= $movie['title'] ?></h2>
+							<p><?= $movie['synopsis'] ?></p>
 							<p><a class="btn btn-default" href="movie.php" role="button">Voir la fiche du film &raquo;</a></p>
 						</div>
 					</div>
 					<!-- END BLOCK RANDOM MOVIE -->
-					<?php } ?>
+					<?php }	 ?>
 
 				</div><!-- .marketing -->
 
@@ -36,15 +43,15 @@ $top_movies = array_slice($movies, 0, 8);
 
 				<div id="top-movies" class="row">
 
-					<?php foreach ($top_movies as $top_movie) {
+					<?php foreach ($top_movies as $movie) {
 					?>
 					<!-- BLOCK TOP MOVIE -->
 					<div class="top-movie col-xs-12 col-sm-6 col-md-4 col-lg-3">
 						<div class="thumbnail">
-							<img src="img/covers/<?= $top_movie['id'] ?>.jpg" />
+							<img src="<?= getCover($movie['id']) ?>" />
 							<div class="caption">
-								<h2><?= $top_movie['title'] ?></h2>
-								<p><?= $top_movie['synopsis'] ?></p>
+								<h2><?= $movie['title'] ?></h2>
+								<p><?= cutString($movie['synopsis'], 100, '[...]') ?></p>
 								<p><a class="btn btn-default" href="movie.php" role="button">Voir la fiche du film &raquo;</a></p>
 							</div>
 						</div>
@@ -56,8 +63,8 @@ $top_movies = array_slice($movies, 0, 8);
 
 			</div><!-- .col-xs-12.col-sm-9 -->
 
-			<?php include 'sidebar.php' ?>
+			<?php include 'sidebar.php'; ?>
 
 		</div><!-- .row -->
 
-<?php include_once 'footer.php' ?>
+<?php include_once 'footer.php'; ?>
