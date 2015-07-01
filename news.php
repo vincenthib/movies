@@ -1,7 +1,50 @@
 <?php
 include_once 'header.php';
 
-$news = $db->query('SELECT * FROM news ORDER BY news_date DESC')->fetchAll();
+// On récupère un paramètre date depuis l'url
+$date = !empty($_GET['date']) ? $_GET['date'] : '';
+
+$bindings = array();
+$filter_date = '';
+if (!empty($date)) {
+	$filter_date = ' AND DATE_FORMAT(news_date, "%Y-%m") = :date';
+	$bindings['date'] = $date;
+}
+
+// On défini la page sur laquelle on se trouve
+$page = !empty($_GET['p']) ? intval($_GET['p']) : 1;
+// Si page > 0 on garde page, sinon on prend 1
+$page = $page > 0 ? $page : 1;
+
+// On défini le nombre d'éléments à afficher par page
+$nb_items_per_page = 5;
+
+// On fait une requête qui compte le nombre total de résultats à afficher
+$query = $db->prepare('SELECT COUNT(*) as count_news FROM news WHERE 1 '.$filter_date);
+foreach($bindings as $key => $value) {
+	$type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+	$query->bindValue($key, $value, $type);
+}
+$query->execute();
+$result = $query->fetch();
+$count_news = $result['count_news'];
+
+// On calcul le nombre de pages pour construire les liens de pagination
+$nb_pages = ceil($count_news / $nb_items_per_page);
+
+// On fait la requête qui va chercher la portion qui nous intéresse
+// On renvoie les résultats depuis la ligne X, et on garde N éléments
+$query = $db->prepare('SELECT * FROM news WHERE 1 '.$filter_date.' ORDER BY news_date DESC LIMIT :start, :nb_items');
+$bindings['start'] = ($page - 1)  * $nb_items_per_page;
+$bindings['nb_items'] = $nb_items_per_page;
+
+foreach($bindings as $key => $value) {
+	$type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+	$query->bindValue($key, $value, $type);
+}
+
+$query->execute();
+$news = $query->fetchAll();
 ?>
 <div class="news-container">
 
@@ -13,7 +56,10 @@ $news = $db->query('SELECT * FROM news ORDER BY news_date DESC')->fetchAll();
 	<div class="row">
 		<div class="col-xs-12 col-sm-9">
 
-			<?php foreach($news as $key => $article) { ?>
+			<?php
+			include 'pagination.php';
+
+			foreach($news as $key => $article) { ?>
 			<!-- NEWS POST -->
 			<div class="news-post">
 
@@ -34,7 +80,11 @@ $news = $db->query('SELECT * FROM news ORDER BY news_date DESC')->fetchAll();
 
 			</div>
 			<!-- END NEWS POST -->
-			<?php } ?>
+			<?php
+			}
+
+			include 'pagination.php';
+			?>
 
 		</div>
 

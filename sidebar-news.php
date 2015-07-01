@@ -13,8 +13,9 @@
 							$month_en = strtolower(date('F', $time));
 							$month_fr = ucfirst(getMonthLabel($month_en));
 							$date_label = $month_fr.' '.$year;
+							$date_value = date('Y-m', $time);
 						?>
-						<li><a href="#"><?= $date_label ?></a></li>
+						<li><a href="?date=<?= $date_value ?>"><?= $date_label ?></a></li>
 						<?php }	?>
 					</ol>
 				</div>

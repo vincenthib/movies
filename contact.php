@@ -77,21 +77,21 @@ if (!empty($_POST)) {
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group<?= !empty($errors['firstname']) ? ' has-error' : '' ?>">
 		<label for="firstname" class="col-sm-2 control-label">Prénom</label>
 		<div class="col-sm-3">
 			<input type="text" id="firstname" name="firstname" class="form-control" placeholder="Prénom" value="<?= $firstname ?>">
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group<?= !empty($errors['email']) ? ' has-error' : '' ?>">
 		<label for="email" class="col-sm-2 control-label">Email</label>
 		<div class="col-sm-5">
 			<input type="email" id="email" name="email" class="form-control" placeholder="Email" value="<?= $email ?>">
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group<?= !empty($errors['message']) ? ' has-error' : '' ?>">
 		<label for="message" class="col-sm-2 control-label">Message</label>
 		<div class="col-sm-3">
 			<textarea id="message" name="message" class="form-control" placeholder="Your message"><?= $message ?></textarea>

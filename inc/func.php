@@ -111,6 +111,9 @@ function displayList($list, $title = '', $url = '', $class = 'default') {
 	return $html;
 }
 
+/*
+
+*/
 function getSimilarMovies($movie, $type, $limit = 5, $sep = ', ') {
 
 	// On rapatrie la connexion à la base de données
@@ -142,7 +145,7 @@ function getSimilarMovies($movie, $type, $limit = 5, $sep = ', ') {
 	$sql .= ' AND id != :id ORDER BY RAND() LIMIT :limit';
 
 	$query = $db->prepare($sql);
-	$query->bindValue('id', $movie['id']);
+	$query->bindValue('id', $movie['id'], PDO::PARAM_INT);
 	$query->bindValue('limit', $limit, PDO::PARAM_INT);
 	$query->execute();
 	$movies = $query->fetchAll();
