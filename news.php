@@ -1,7 +1,7 @@
 <?php
 include_once 'header.php';
 
-$news = query('SELECT * FROM news ORDER BY news_date DESC');
+$news = $db->query('SELECT * FROM news ORDER BY news_date DESC')->fetchAll();
 ?>
 <div class="news-container">
 

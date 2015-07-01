@@ -35,7 +35,22 @@ if (!empty($_POST)) {
 	}
 
 	if (empty($errors)) {
-		echo '<div class="alert alert-success" role="success">Merci :)</div>';
+
+		$query = $db->prepare('INSERT INTO contact (lastname, firstname, email, newsletter, message, date) VALUES (:lastname, :firstname, :email, :newsletter, :message, NOW())');
+		$query->bindValue('lastname', $lastname);
+		$query->bindValue('firstname', $firstname);
+		$query->bindValue('email', $email);
+		$query->bindValue('message', $message);
+		$query->bindValue('newsletter', $newsletter, PDO::PARAM_INT);
+		$query->execute();
+
+		$result = $db->lastInsertId();
+
+		if (empty($result)) {
+			echo '<div class="alert alert-danger" role="danger">Une erreur est survenue</div>';
+		} else {
+			echo '<div class="alert alert-success" role="success">Merci :)</div>';
+		}
 		goto end;
 	}
 }

@@ -2,8 +2,8 @@
 require_once 'header.php';
 
 //$top_movies = array_slice($movies, 0, 8);
-$top_movies = query('SELECT * FROM movies ORDER BY year DESC LIMIT 8');
-$rand_movies = query('SELECT * FROM movies ORDER BY RAND() LIMIT 3');
+$top_movies = $db->query('SELECT * FROM movies ORDER BY year DESC LIMIT 8')->fetchAll();
+$rand_movies = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 3')->fetchAll();
 ?>
 		<div class="row">
 

@@ -20,7 +20,7 @@
 					<li<?= $active ?>><a href="<?= $page_url ?>"><?= $page_name ?></a></li>
 					<?php } ?>
 				</ul>
-				<form class="navbar-form navbar-right" action="search.php" method="POST">
+				<form class="navbar-form navbar-right" action="search.php" method="GET">
 					<div class="input-group">
 						<input name="search" type="text" class="form-control" placeholder="Recherche rapide...">
 						<span class="input-group-btn">

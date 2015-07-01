@@ -19,36 +19,3 @@ try {
 } catch (Exception $e) {
     exit('MySQL Connect Error >> '.$e->getMessage());
 }
-
-function query($query) {
-
-    try {
-
-        global $db;
-
-        switch (strtok($query, ' ')) {
-            case 'SELECT':
-                return $db->query($query, PDO::FETCH_ASSOC)->fetchAll();
-            break;
-            case 'INSERT':
-                $db->exec($query);
-                return intval($db->lastInsertId());
-            break;
-            case 'UPDATE':
-            case 'DELETE':
-                $result = $db->query($query);
-                return $result->rowCount();
-            break;
-        }
-
-        throw new Exception('Invalid query : '.$query);
-
-        //$query = $db->prepare('SELECT * FROM movies WHERE id = :id');
-        //$query->bindValue('id', $id, PDO::PARAM_INT);
-        //$query->execute();
-        //$result = $query->fetchAll();
-
-    } catch (Exception $e) {
-        exit('MySQL Query Error >> '.$e->getMessage());
-    }
-}

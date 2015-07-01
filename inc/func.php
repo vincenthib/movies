@@ -83,3 +83,30 @@ function getMonthLabel($month) {
 	}
 	return $month_labels[$month];
 }
+
+function displayList($list, $title = '', $url = '', $class = 'default') {
+
+	// Si le tableau $list est vide
+	if (empty($list)) {
+		// On retourne une chaine vide
+		return '';
+	}
+
+	// On remplit une variable avec le html
+	$html = '<div class="panel panel-'.$class.'">
+		<div class="panel-heading">'.$title.'</div>
+		<div class="list-group">';
+
+	// Pour chaque ligne du tableau $list
+	foreach($list as $key => $row) {
+		// On ajoute un lien à la variable $html
+		$html .= '<a href="'.$url.'?id='.$row['id'].'" class="list-group-item">'. ($key + 1).'. '.$row['title'] .'</a>';
+	}
+
+	// On finit de remplir $list avec les fermetures de balise
+	$html .= '</div>
+	</div>';
+
+	// On renvoit le html au complet pour l'afficher
+	return $html;
+}

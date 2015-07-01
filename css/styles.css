@@ -48,3 +48,12 @@ body {
 .form-group {
 	margin-top: 10px;
 }
+
+option.disabled {
+	color: #999;
+	font-style: italic;
+}
+
+.search-results .movie-cover {
+	margin-right: 20px;
+}

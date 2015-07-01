@@ -1,15 +1,7 @@
 <?php
 include_once 'header.php';
 
-if (!isset($_GET['id'])) {
-	exit('Undefined param id');
-}
-
-$id = intval($_GET['id']);
-
-$query = $db->prepare('SELECT * FROM movies WHERE id = :id');
-$query->bindValue(':id', $id, PDO::PARAM_INT);
-$query->execute();
+$query = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 1');
 $movie = $query->fetch();
 
 //debug($movie);
@@ -17,13 +9,8 @@ $movie = $query->fetch();
 if (empty($movie)) {
 	exit('Undefined movie');
 }
-
-$back_link = 'index.php';
-if (!empty($_SERVER['HTTP_REFERER'])) {
-	$back_link = $_SERVER['HTTP_REFERER'];
-}
 ?>
-<a href="<?= $back_link ?>" class="btn btn-default" role="button">&laquo; Retour</a>
+<a href="index.php" class="btn btn-default" role="button">&laquo; Retour</a>
 
 <hr>
 

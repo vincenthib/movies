@@ -7,13 +7,14 @@ if (!isset($_GET['id'])) {
 
 $id = intval($_GET['id']);
 
-$article = query('SELECT * FROM news WHERE news_id = '.$id);
+$query = $db->prepare('SELECT * FROM news WHERE news_id = :id');
+$query->bindValue(':id', $id, PDO::PARAM_INT);
+$query->execute();
+$article = $query->fetch();
 
 if (empty($article)) {
 	exit('Undefined news');
 }
-
-$article = $article[0];
 
 $back_link = 'news.php';
 if (!empty($_SERVER['HTTP_REFERER'])) {
