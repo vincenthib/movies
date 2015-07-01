@@ -1,5 +1,9 @@
-<?php require_once 'header.php' ?>
+<?php
+require_once 'header.php';
 
+$top_movies = array_slice($movies, 0, 8);
+
+?>
 		<div class="row">
 
 			<div class="col-xs-12 col-sm-9">
@@ -32,14 +36,15 @@
 
 				<div id="top-movies" class="row">
 
-					<?php for ($i = 0; $i < 8; $i++) { ?>
+					<?php foreach ($top_movies as $top_movie) {
+					?>
 					<!-- BLOCK TOP MOVIE -->
 					<div class="top-movie col-xs-12 col-sm-6 col-md-4 col-lg-3">
 						<div class="thumbnail">
-							<img src="img/cover.png" />
+							<img src="img/covers/<?= $top_movie['id'] ?>.jpg" />
 							<div class="caption">
-								<h2>Movie title</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est urna, facilisis ac ipsum aliquet, tincidunt molestie orci. Fusce imperdiet elementum risus in fermentum.</p>
+								<h2><?= $top_movie['title'] ?></h2>
+								<p><?= $top_movie['synopsis'] ?></p>
 								<p><a class="btn btn-default" href="movie.php" role="button">Voir la fiche du film &raquo;</a></p>
 							</div>
 						</div>

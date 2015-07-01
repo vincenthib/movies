@@ -1,4 +1,6 @@
 <?php
+require_once 'inc/movies.php';
+
 /*
 echo '<pre>';
 print_r($_SERVER);

@@ -11,13 +11,13 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<?php foreach($pages as $page_url => $page_name) {
+					<?php foreach ($pages as $page_url => $page_name) {
 						$active = '';
 						if ($current_page == $page_url) {
 							$active = ' class="active"';
 						}
 					?>
-					<li<?=$active?>><a href="<?=$page_url?>"><?=$page_name?></a></li>
+					<li<?= $active ?>><a href="<?= $page_url ?>"><?= $page_name ?></a></li>
 					<?php } ?>
 				</ul>
 				<form class="navbar-form navbar-right" action="search.php" method="POST">
