@@ -110,3 +110,43 @@ function displayList($list, $title = '', $url = '', $class = 'default') {
 	// On renvoit le html au complet pour l'afficher
 	return $html;
 }
+
+function getSimilarMovies($movie, $type, $limit = 5, $sep = ', ') {
+
+	// On rapatrie la connexion à la base de données
+	global $db;
+
+	// On définie la liste des types autorisés
+	static $types = array('genres', 'actors', 'directors', 'writers');
+
+	// Si le type reçu en paramètre n'est pas dans la liste des types autorisés
+	// OU que le type n'est pas présent en clé du tableau $movie
+	if (!in_array($type, $types) || empty($movie[$type])) {
+		return array();
+	}
+
+	// On explose la chaîne avec un séparateur et on répartit dans un tableau
+	$items = explode($sep, $movie[$type]);
+
+	$filters = array();
+	foreach($items as $item) {
+		// Pour chaque élément dans $items, on ajoute un filtre pour le WHERE
+		$filters[] = $type.' LIKE "%'.$item.'%"';
+	}
+
+	// On reconstitue la requête
+	$sql = 'SELECT * FROM movies WHERE 1';
+	// On recolle tous les éléments du tableau $filters sous forme de chaîne avec OR en séparateur
+	$sql .= ' AND ('.implode(' OR ', $filters).')';
+	// On exclue l'id du film reçu en paramètre, on mélange les résultats et on garde X résultats
+	$sql .= ' AND id != :id ORDER BY RAND() LIMIT :limit';
+
+	$query = $db->prepare($sql);
+	$query->bindValue('id', $movie['id']);
+	$query->bindValue('limit', $limit, PDO::PARAM_INT);
+	$query->execute();
+	$movies = $query->fetchAll();
+
+	// On renvoie les résultats de la requête
+	return $movies;
+}
