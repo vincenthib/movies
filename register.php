@@ -1,6 +1,77 @@
 <?php
 include_once 'header.php';
 
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequest;
+use Facebook\FacebookGraphObject;
+use Facebook\GraphUser;
+
+FacebookSession::setDefaultApplication(FB_APP_ID, FB_APP_SECRET);
+
+$helper = new FacebookRedirectLoginHelper($root_path.'/register.php');
+
+try {
+
+	$session = $helper->getSessionFromRedirect();
+
+	if (!empty($session)) {
+
+		$request = new FacebookRequest($session, 'GET', '/me');
+		$response = $request->execute();
+		$graphObject = $response->getGraphObject();
+
+		$user = $response->getGraphObject(GraphUser::className());
+
+		$fb_id = $user->getProperty('id');
+		$firstname = $user->getProperty('first_name');
+		$lastname = $user->getProperty('last_name');
+		$email = $user->getProperty('email');
+
+		if (empty($email)) {
+			throw new Exception('Votre adresse email semble être en attente de validation, vous devez confirmer votre compte Facebook avant de poursuivre');
+		}
+
+		$query = $db->prepare('SELECT * FROM users WHERE fb_id = :fb_id');
+		$query->bindValue('fb_id', $fb_id);
+		$query->execute();
+		$fb_user = $query->fetch();
+
+		if (!empty($fb_user)) {
+			$_SESSION['user_id'] = $fb_user['id'];
+			$_SESSION['firstname'] = $fb_user['firstname'];
+			header('Location: index.php');
+			exit();
+		}
+
+		$query = $db->prepare('INSERT INTO users SET firstname = :firstname, lastname = :lastname, email = :email, fb_id = :fb_id, register_date = NOW()
+			ON DUPLICATE KEY UPDATE firstname = :firstname, lastname = :lastname, email = :email, fb_id = :fb_id');
+		$query->bindValue('fb_id', $fb_id);
+		$query->bindValue('firstname', $firstname);
+		$query->bindValue('lastname', $lastname);
+		$query->bindValue('email', $email);
+		$query->execute();
+
+		$user_id = $db->lastInsertId();
+
+		if (empty($user_id)) {
+			throw new Exception();
+		} else {
+			$_SESSION['user_id'] = $user_id;
+			$_SESSION['firstname'] = $firstname;
+			header('Location: index.php');
+			exit();
+		}
+	}
+} catch(Exception $e) {
+	echo '<div class="alert alert-danger" role="danger">';
+	echo 'Une erreur est survenue durant l\'association avec votre compte Facebook';
+	echo '<br>'.$e->getMessage();
+	// When Facebook returns an error
+	//if ($e instanceOf FacebookRequestException) {}
+	echo '</div>';
+}
+
 //debug($_POST);
 
 $lastname = !empty($_POST['lastname']) ? $_POST['lastname'] : '';
@@ -62,7 +133,7 @@ if (!empty($_POST)) {
 				echo '<div class="alert alert-danger" role="danger">Une erreur est survenue</div>';
 			} else {
 				$_SESSION['user_id'] = $user_id;
-				$_SESSION['firstname'] = $user['firstname'];
+				$_SESSION['firstname'] = $firstname;
 
 				echo '<div class="alert alert-success" role="success">Authentification réussie</div>';
 				echo redirectJS('index.php', 2);

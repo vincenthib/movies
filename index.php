@@ -33,6 +33,47 @@ $rand_movies = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 3')->fetch
 
 				</div><!-- .marketing -->
 
+				<?php
+				if (!empty($_SESSION['movies'])) {
+
+				$movie_ids_array = array_keys($_SESSION['movies']);
+				$movie_ids = implode(', ', $movie_ids_array);
+				$movie_ids_order = 'ORDER BY id = '.implode(' DESC, id = ', $movie_ids_array).' DESC';
+
+				$visited_movies = $db->query('SELECT * FROM movies WHERE id IN ('.$movie_ids.') '.$movie_ids_order)->fetchAll();
+
+				/*
+				$result = $db->query('SELECT * FROM movies WHERE id IN ('.$movie_ids.')')->fetchAll();
+				$visited_movies = $_SESSION['movies'];
+				foreach($result as $key => $movie) {
+					$visited_movies[$movie['id']] = $movie;
+				}
+				*/
+				?>
+				<hr>
+
+				<h1>Les derniers films visités</h1>
+
+				<div id="visited-movies" class="row">
+
+					<?php foreach ($visited_movies as $key => $movie) { ?>
+					<!-- BLOCK VISITED MOVIE -->
+					<div class="top-movie col-xs-12 col-sm-6 col-md-4 col-lg-3">
+						<div class="thumbnail">
+							<img src="<?= getCover($movie['id']) ?>" />
+							<div class="caption">
+								<h2><?= $movie['title'] ?></h2>
+								<p><?= cutString($movie['synopsis'], 100, '[...]') ?></p>
+								<p><a class="btn btn-default" href="movie.php?id=<?= $movie['id'] ?>" role="button">Voir la fiche du film &raquo;</a></p>
+							</div>
+						</div>
+					</div>
+					<!-- END BLOCK VISITED MOVIE -->
+					<?php } ?>
+
+				</div><!-- #visited-movies -->
+				<?php } ?>
+
 				<hr>
 
 				<div id="top-movies" class="row">

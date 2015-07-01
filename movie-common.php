@@ -6,6 +6,24 @@ if (empty($movie)) {
 	exit('Undefined movie');
 }
 
+// On récupère l'id du film sur lequel on se trouve
+$id = $movie['id'];
+
+// Si le tableau des films visités n'existe pas
+if (!isset($_SESSION['movies'])) {
+	// On initialise le tableau
+	$_SESSION['movies'] = array();
+}
+
+// On ajoute en clé l'id du film et en valeur la date d'ajout en timestamp
+$_SESSION['movies'][$id] = time();
+
+// On tri le tableau par date d'ajout décroissant
+arsort($_SESSION['movies']);
+
+// On ne garde que les 4 derniers films visités en préservant les clés du tableau
+$_SESSION['movies'] = array_slice($_SESSION['movies'], 0, 4, $preserve_keys = true);
+
 $_movie_genres = $db->query('SELECT * FROM genres ORDER BY genre_name ASC')->fetchAll();
 
 $movie_genres = array();

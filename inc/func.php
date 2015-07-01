@@ -1,22 +1,38 @@
 <?php
 
+function isDecimal($input){
+    return !(ctype_digit(strval($input)));
+}
+
+function cleanString($str, $delimiter='-') {
+	$clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+	$clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+	$clean = strtolower(trim($clean, '-'));
+	$clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+	return $clean;
+}
+
 /*
 	Fonction qui renvoie le chemin d'une cover de film
 	ou de la cover par defaut
 */
 function getCover($id = null) {
 
+	global $root_dir, $root_path;
+
 	// On défini le chemin de la cover par defaut
-	$cover = 'img/cover.png';
+	$cover = $root_path.'img/cover.png';
+
 
 	// Si la variable $id est définie et supérieure à 0
 	if (!empty($id)) {
 		// On défini le chemin de la cover d'un film à partir de son id
 		$movie_cover = 'img/covers/'.$id.'.jpg';
+
 		// Si le fichier existe sur le serveur
-		if (file_exists($movie_cover)) {
+		if (file_exists($root_dir.$movie_cover)) {
 			// On retourne le chemin de la cover du film
-			return $movie_cover;
+			return $root_path.$movie_cover;
 		}
 	}
 	// On retourne le chemin de la cover par defaut
@@ -222,4 +238,66 @@ function getRememberMe($expiration) {
 		return $user_id;
 	}
 	return false;
+}
+
+// On définit des constantes pour associer un libellé lisible au chiffre correspond au statut (c'est comme un alias de notre chiffre)
+define('STATUS_DEFAULT_USER', 0);
+define('STATUS_CONTRIBUTOR_USER', 1);
+define('STATUS_ADMIN_USER', 2);
+define('STATUS_SUPER_ADMIN_USER', 3);
+
+/*
+	Fonction qui définit si une page est autorisée pour un statut donné
+
+	@param $page string
+	@param $status int
+	@return boolean
+*/
+function isAllowedAccess($page, $status) {
+
+	// On définit une liste de page avec le statut minimum pour y accèder
+	$pages = array(
+		'index.php' => STATUS_CONTRIBUTOR_USER,
+		'movies.php' => STATUS_CONTRIBUTOR_USER,
+		'add_movie.php' => STATUS_CONTRIBUTOR_USER,
+		'mod_movie.php' => STATUS_CONTRIBUTOR_USER,
+		'del_movie.php' => STATUS_CONTRIBUTOR_USER,
+		'users.php' => STATUS_ADMIN_USER,
+		'mod_user.php' => STATUS_ADMIN_USER,
+		'del_user.php' => STATUS_ADMIN_USER,
+		'comments.php' => STATUS_ADMIN_USER,
+		'messages.php' => STATUS_ADMIN_USER
+	);
+
+	// Si la page qu'on a passé en paramètre $page n'est pas dans le tableau, alors on autorise
+	if (empty($pages[$page])) {
+		return true;
+	}
+
+	// Si le statut passé en paramètre $status est supérieur ou égal au statut défini dans le tableau pour la page passé en paramètre $page, alors on autorise
+	if ($status >= $pages[$page]) {
+		return true;
+	}
+	// Sinon on n'autorise pas
+	return false;
+}
+
+function getStatusLabel($status) {
+
+	$status_labels = array(
+		STATUS_DEFAULT_USER => 'Utilisateur',
+		STATUS_CONTRIBUTOR_USER => 'Contributeur',
+		STATUS_ADMIN_USER => 'Admin'
+	);
+	return $status_labels[$status];
+}
+
+function getStatusClass($status) {
+
+	$status_classes = array(
+		STATUS_DEFAULT_USER => 'default',
+		STATUS_CONTRIBUTOR_USER => 'info',
+		STATUS_ADMIN_USER => 'danger'
+	);
+	return $status_classes[$status];
 }

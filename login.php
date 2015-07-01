@@ -1,6 +1,18 @@
 <?php
 include_once 'header.php';
 
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
+
+FacebookSession::setDefaultApplication(FB_APP_ID, FB_APP_SECRET);
+
+$helper = new FacebookRedirectLoginHelper($root_path.'/register.php');
+$loginUrl = $helper->getLoginUrl(
+	array(
+		'scope' => 'public_profile,email'
+	)
+);
+
 $expiration = 60 * 60 * 24 * 7;  // 7 jours
 
 $remember_me = getRememberMe($expiration);
@@ -110,6 +122,21 @@ if (!empty($_POST)) {
 	</div>
 </form>
 
+<<<<<<< HEAD
+=======
+<hr>
+
+<form class="form-horizontal" action="" method="POST" novalidate>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label"></label>
+		<div class="col-sm-5">
+			<a class="btn btn-primary" href="<?= $loginUrl ?>">Facebook Connect</a>
+		</div>
+	</div>
+</form>
+
+>>>>>>> b7481643b737bf134c64efbf386358be7a78342f
 <?php
 end:
 
