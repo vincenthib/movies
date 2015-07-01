@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
-include_once 'inc/news_data.php';
+
+$news = query('SELECT * FROM news ORDER BY news_date DESC');
 ?>
 <div class="news-container">
 
@@ -17,7 +18,7 @@ include_once 'inc/news_data.php';
 			<div class="news-post">
 
 				<h2>
-					<a href="article.php?id=<?= $key ?>"><?= ucfirst($article['news_title']) ?></a>
+					<a href="article.php?id=<?= $article['news_id'] ?>"><?= ucfirst($article['news_title']) ?></a>
 				</h2>
 				<p><?= date('d/m/Y H:i:s', strtotime($article['news_date']))  ?></p>
 				<hr>
@@ -27,7 +28,7 @@ include_once 'inc/news_data.php';
 					</p>
 				</blockquote>
 
-				<a href="article.php?id=<?= $key ?>">
+				<a href="article.php?id=<?= $article['news_id'] ?>">
 					Lire la suite
 				</a>
 

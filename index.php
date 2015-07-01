@@ -1,7 +1,9 @@
 <?php
 require_once 'header.php';
 
-$top_movies = array_slice($movies, 0, 8);
+//$top_movies = array_slice($movies, 0, 8);
+$top_movies = query('SELECT * FROM movies ORDER BY year DESC LIMIT 8');
+$rand_movies = query('SELECT * FROM movies ORDER BY RAND() LIMIT 3');
 ?>
 		<div class="row">
 
@@ -16,22 +18,14 @@ $top_movies = array_slice($movies, 0, 8);
 
 				<div class="row marketing">
 
-					<?php
-					for ($i = 0; $i < 3; $i++) {
-
-						// On tire un nombre aléatoire entre 0 et le dernier élément du tableau (taille du tableau - 1)
-						//$random_key = mt_rand(0, count($movies) - 1);
-						// On va chercher une clé au hasard parmis les clés du tableau $movies
-						$random_key = array_rand($movies);
-						$movie = $movies[$random_key];
-					?>
+					<?php foreach ($rand_movies as $key => $movie) { ?>
 					<!-- BLOCK RANDOM MOVIE -->
 					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
 						<img class="movie-thumbnail" src="<?= getCover($movie['id']) ?>" />
 						<div class="caption">
 							<h2><?= $movie['title'] ?></h2>
 							<p><?= cutString($movie['synopsis'], 100) ?></p>
-							<p><a class="btn btn-default" href="movie.php?id=<?= $random_key ?>" role="button">Voir la fiche du film &raquo;</a></p>
+							<p><a class="btn btn-default" href="movie.php?id=<?= $movie['id'] ?>" role="button">Voir la fiche du film &raquo;</a></p>
 						</div>
 					</div>
 					<!-- END BLOCK RANDOM MOVIE -->
@@ -43,8 +37,7 @@ $top_movies = array_slice($movies, 0, 8);
 
 				<div id="top-movies" class="row">
 
-					<?php foreach ($top_movies as $key => $movie) {
-					?>
+					<?php foreach ($top_movies as $key => $movie) { ?>
 					<!-- BLOCK TOP MOVIE -->
 					<div class="top-movie col-xs-12 col-sm-6 col-md-4 col-lg-3">
 						<div class="thumbnail">
@@ -52,7 +45,7 @@ $top_movies = array_slice($movies, 0, 8);
 							<div class="caption">
 								<h2><?= $movie['title'] ?></h2>
 								<p><?= cutString($movie['synopsis'], 100, '[...]') ?></p>
-								<p><a class="btn btn-default" href="movie.php?id=<?= $key ?>" role="button">Voir la fiche du film &raquo;</a></p>
+								<p><a class="btn btn-default" href="movie.php?id=<?= $movie['id'] ?>" role="button">Voir la fiche du film &raquo;</a></p>
 							</div>
 						</div>
 					</div>

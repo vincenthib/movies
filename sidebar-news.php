@@ -4,18 +4,18 @@
 				<div class="panel-heading">Archives</div>
 				<div class="panel-body">
 					<ol class="list-unstyled">
-						<li><a href="#">Mai 2015</a></li>
-						<li><a href="#">Avril 2015</a></li>
-						<li><a href="#">Mars 2015</a></li>
-						<li><a href="#">Février 2015</a></li>
-						<li><a href="#">Janvier 2015</a></li>
-						<li><a href="#">Décembre 2014</a></li>
-						<li><a href="#">Novembre 2014</a></li>
-						<li><a href="#">Octobre 2014</a></li>
-						<li><a href="#">Septembre 2014</a></li>
-						<li><a href="#">Août 2014</a></li>
-						<li><a href="#">Juillet 2014</a></li>
-						<li><a href="#">Juin 2014</a></li>
+						<?php
+						for($i = 0; $i < 12; $i++) {
+
+							$time = strtotime('-'.$i.' month');
+
+							$year = date('Y', $time);
+							$month_en = strtolower(date('F', $time));
+							$month_fr = ucfirst(getMonthLabel($month_en));
+							$date_label = $month_fr.' '.$year;
+						?>
+						<li><a href="#"><?= $date_label ?></a></li>
+						<?php }	?>
 					</ol>
 				</div>
 			</div>

@@ -7,11 +7,15 @@ if (!isset($_GET['id'])) {
 
 $id = intval($_GET['id']);
 
-if (empty($movies[$id])) {
+$movie = query('SELECT * FROM movies WHERE id = '.$id);
+
+//debug($movie);
+
+if (empty($movie)) {
 	exit('Undefined movie');
 }
 
-$movie = $movies[$id];
+$movie = $movie[0];
 ?>
 <a href="index.php" class="btn btn-default" role="button">&laquo; Retour</a>
 
@@ -49,42 +53,7 @@ $movie = $movies[$id];
 		</div>
 	</div>
 
-	<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-
-		<div class="panel panel-primary">
-			<div class="panel-heading">Films des mêmes genres</div>
-			<div class="list-group">
-				<a href="#" class="list-group-item">1. Movie title</a>
-				<a href="#" class="list-group-item">2. Movie title</a>
-				<a href="#" class="list-group-item">3. Movie title</a>
-				<a href="#" class="list-group-item">4. Movie title</a>
-				<a href="#" class="list-group-item">5. Movie title</a>
-			</div>
-		</div>
-
-		<div class="panel panel-info">
-			<div class="panel-heading">Films des mêmes acteurs</div>
-			<div class="list-group">
-				<a href="#" class="list-group-item">1. Movie title</a>
-				<a href="#" class="list-group-item">2. Movie title</a>
-				<a href="#" class="list-group-item">3. Movie title</a>
-				<a href="#" class="list-group-item">4. Movie title</a>
-				<a href="#" class="list-group-item">5. Movie title</a>
-			</div>
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">Films des mêmes réalisateurs</div>
-			<div class="list-group">
-				<a href="#" class="list-group-item">1. Movie title</a>
-				<a href="#" class="list-group-item">2. Movie title</a>
-				<a href="#" class="list-group-item">3. Movie title</a>
-				<a href="#" class="list-group-item">4. Movie title</a>
-				<a href="#" class="list-group-item">5. Movie title</a>
-			</div>
-		</div>
-
-	</div>
+	<?php include 'sidebar-movie.php'; ?>
 
 </div>
 

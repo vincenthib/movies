@@ -49,7 +49,37 @@ function cutString($text, $max_length = 0, $end = '...', $sep = '[@]') {
 function getDuration($duration) {
 
 	$hours = floor($duration / 60);
-	$minutes = $duration % 60;
+	$minutes = sprintf('%1$02d', $duration % 60);
 
 	return $hours.'h'.$minutes.'min';
+}
+
+function debug($array) {
+	echo '<pre>';
+	print_r($array);
+	echo '</pre>';
+	//echo '<pre>'.print_r($array, true).'</pre>';
+}
+
+function getMonthLabel($month) {
+
+	static $month_labels = array(
+		'january' => 'janvier',
+		'february' => 'février',
+		'march' => 'mars',
+		'april' => 'avril',
+		'may' => 'mai',
+		'june' => 'juin',
+		'july' => 'juillet',
+		'august' => 'août',
+		'september' => 'septembre',
+		'october' => 'octobre',
+		'november' => 'novembre',
+		'december' => 'décembre'
+	);
+
+	if (!isset($month_labels[$month])) {
+		return $month;
+	}
+	return $month_labels[$month];
 }

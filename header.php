@@ -1,6 +1,10 @@
 <?php
 require_once 'inc/func.php';
-require_once 'inc/movies.php';
+require_once 'inc/db.php';
+
+// @FIXME : delete these lines
+//require_once 'inc/movies.php';
+//include_once 'inc/news_data.php';
 
 /*
 echo '<pre>';
@@ -15,6 +19,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 $pages = array(
 	'index.php' => 'Accueil',
+	'random.php' => 'Film au hasard',
 	'news.php' => 'Actualités',
 	'search.php' => 'Recherche',
 	'contact.php' => 'Contact'
