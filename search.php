@@ -1,6 +1,13 @@
 <?php
 include_once 'header.php';
 
+// On réceptionne un paramètre ?p= passé dans l'URL
+
+$page = !empty($_GET['p']) ? intval($_GET['p']) : 1;
+$page = $page > 0 ? $page : 1;
+
+$nb_items_per_page = 10;
+
 $min_max_year = $db->query('SELECT MIN(year) as min_year, MAX(year) as max_year FROM movies')->fetch();
 
 $range_years = range($min_max_year['max_year'], $min_max_year['min_year']);
@@ -101,53 +108,85 @@ if (!empty($_GET)) {
 
 		$search = $_GET['search'];
 
-		$query = $db->prepare('SELECT * FROM movies WHERE title LIKE :search OR synopsis LIKE :search OR actors LIKE :search');
+		$filter = ' WHERE title LIKE :search OR synopsis LIKE :search OR actors LIKE :search';
+
+		$query = $db->prepare('SELECT COUNT(*) as count_total FROM movies '.$filter);
 		$query->bindValue('search', '%'.$search.'%');
+		$query->execute();
+		$result = $query->fetch();
+		$count_results = $result['count_total'];
+
+		$query = $db->prepare('SELECT * FROM movies '.$filter.' LIMIT :start, :nb_items');
+		$query->bindValue('search', '%'.$search.'%');
+		$query->bindValue('start', ($page - 1) * $nb_items_per_page, PDO::PARAM_INT);
+		$query->bindValue('nb_items', $nb_items_per_page, PDO::PARAM_INT);
 		$query->execute();
 		$search_results = $query->fetchAll();
 
-		//$count_results = count($search_results); // Count PHP
-		$count_results = $query->rowCount(); // Count PDO plus rapide
 	} else {
 
 		$bindings = array();
 
-		$sql = 'SELECT * FROM movies WHERE 1';
+		$select_count = 'SELECT COUNT(*) as count_total ';
+		$select = 'SELECT * ';
+
+		$from = ' FROM movies ';
+
+		$where = ' WHERE 1 ';
 
 		if (!empty($title)) {
-			$sql .= ' AND title LIKE :title';
+			$where .= ' AND title LIKE :title';
 			$bindings['title'] = '%'.$title.'%';
 		}
 		if (!empty($genre)) {
-			$sql .= ' AND genres LIKE :genre';
+			$where .= ' AND genres LIKE :genre';
 			$bindings['genre'] = '%'.$genre.'%';
 		}
 		if (!empty($year)) {
-			$sql .= ' AND year = :year';
+			$where .= ' AND year = :year';
 			$bindings['year'] = $year;
 		}
 		if (!empty($actors)) {
-			$sql .= ' AND actors LIKE :actors';
+			$where .= ' AND actors LIKE :actors';
 			$bindings['actors'] = '%'.$actors.'%';
 		}
 		if (!empty($directors)) {
-			$sql .= ' AND directors LIKE :directors';
+			$where .= ' AND directors LIKE :directors';
 			$bindings['directors'] = '%'.$directors.'%';
 		}
 
+		$limit = ' LIMIT :start, :nb_items ';
+
 		if (!empty($bindings)) {
 
-			$query = $db->prepare($sql);
+			$sql_count = $select_count . $from . $where;
+			$sql = $select . $from . $where . $limit;
 
+			// Requête de comptage du nombre total de résultats de recherche
+			$query = $db->prepare($sql_count);
 			foreach($bindings as $key => $value) {
 				$query->bindValue($key, $value);
 			}
+			$query->execute();
+			$result = $query->fetch();
+			$count_results = $result['count_total'];
 
+			// Requête de récupération des résultats de recherche paginés
+			$query = $db->prepare($sql);
+			$bindings['start'] = ($page - 1)  * $nb_items_per_page;
+			$bindings['nb_items'] = $nb_items_per_page;
+			foreach($bindings as $key => $value) {
+				$type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+				$query->bindValue($key, $value, $type);
+			}
 			$query->execute();
 			$search_results = $query->fetchAll();
-			$count_results = $query->rowCount();
+
 		}
 	}
+
+	// On calcul le nombre de pages et on arrondi à l'entier supérieur
+	$nb_pages = ceil($count_results / $nb_items_per_page);
 ?>
 <hr>
 
@@ -157,7 +196,11 @@ if (!empty($_GET)) {
 
 <div class="search-results list-group">
 
-	<?php foreach($search_results as $movie) { ?>
+	<?php
+	include 'pagination.php';
+
+	foreach($search_results as $movie) {
+	?>
 	<a href="movie.php?id=<?= $movie['id'] ?>" class="list-group-item">
 		<img height="80" width="60" class="movie-cover" src="<?= getCover($movie['id']) ?>" align="left">
 		<h4 class="list-group-item-heading"><?= $movie['title'] ?> (<?= $movie['year'] ?>)</h4>
@@ -167,9 +210,15 @@ if (!empty($_GET)) {
 			<?= $movie['actors'] ?>
 		</p>
 	</a>
-	<?php } ?>
+	<?php
+	}
+
+	include 'pagination.php';
+	?>
 
 </div>
-<?php } ?>
+<?php
+} // end if !empty($_GET)
 
-<?php include_once 'footer.php' ?>
+include_once 'footer.php';
+?>

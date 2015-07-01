@@ -25,7 +25,9 @@
 					<?php
 					}
 
-					for ($i = 1; $i <= $nb_pages; $i++) {
+					$nb_pages_active = 3;
+
+					for ($i = max($page - $nb_pages_active, 1); $i <= max(1, min($nb_pages, $page + $nb_pages_active)); $i++) {
 
 						/*
 						$isCurrentPage = $i == ($page + 1);

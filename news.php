@@ -30,6 +30,7 @@ $result = $query->fetch();
 $count_news = $result['count_news'];
 
 // On calcul le nombre de pages pour construire les liens de pagination
+// ceil() permet d'arrondir à l'entier supérieur
 $nb_pages = ceil($count_news / $nb_items_per_page);
 
 // On fait la requête qui va chercher la portion qui nous intéresse

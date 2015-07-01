@@ -5372,9 +5372,34 @@ CREATE TABLE IF NOT EXISTS `visits` (
   `visit_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+--
+-- Structure de la table `contact`
+--
+
+CREATE TABLE IF NOT EXISTS `contact` (
+`id` int(11) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `newsletter` tinyint(1) DEFAULT '0',
+  `message` text NOT NULL,
+  `date` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `contact`
+--
+
 --
 -- Index pour les tables exportées
 --
+
+--
+-- Index pour la table `contact`
+--
+ALTER TABLE `contact`
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `genres`
@@ -5417,6 +5442,11 @@ ALTER TABLE `visits`
 --
 
 --
+-- AUTO_INCREMENT pour la table `contact`
+--
+ALTER TABLE `contact`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT pour la table `genres`
 --
 ALTER TABLE `genres`
@@ -5446,6 +5476,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `visits`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
