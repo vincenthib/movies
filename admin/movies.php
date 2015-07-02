@@ -11,7 +11,7 @@ $count_movies = $result['count_movies'];
 
 $nb_pages = ceil($count_movies / $nb_items_per_page);
 
-$query = $db->prepare('SELECT * FROM movies ORDER BY title LIMIT :start, :nb_items');
+$query = $db->prepare('SELECT * FROM movies ORDER BY modified DESC LIMIT :start, :nb_items');
 $query->bindValue('start', ($page - 1) * $nb_items_per_page, PDO::PARAM_INT);
 $query->bindValue('nb_items', $nb_items_per_page, PDO::PARAM_INT);
 $query->execute();

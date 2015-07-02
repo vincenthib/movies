@@ -9,19 +9,19 @@ foreach($desc as $key => $field) {
 */
 
 $fields = array(
-	'slug' => 		 array('required' => true, 'type' => 'text',  		'maxlength' => 255),
+	'slug' => 		 array('required' => false, 'type' => 'text',  		'maxlength' => 255),
 	'title' => 		 array('required' => true, 'type' => 'textarea',  	'maxlength' => 0, 'error' => 'Title is mandatory and must be 255 length max'),
 	'year' => 		 array('required' => true, 'type' => 'text',  		'maxlength' => 11),
 	'genres' => 	 array('required' => true, 'type' => 'text',  		'maxlength' => 255),
-	'synopsis' => 	 array('required' => false, 'type' => 'textarea',  	'maxlength' => 0),
+	'synopsis' => 	 array('required' => true, 'type' => 'textarea',  	'maxlength' => 0),
 	'directors' => 	 array('required' => false, 'type' => 'text',  		'maxlength' => 255),
 	'actors' => 	 array('required' => false, 'type' => 'text',  		'maxlength' => 255),
 	'writers' => 	 array('required' => false, 'type' => 'text',  		'maxlength' => 255),
 	'runtime' => 	 array('required' => false, 'type' => 'text',  		'maxlength' => 11, 'label' => 'duration'),
 	'mpaa' => 		 array('required' => false, 'type' => 'text',  		'maxlength' => 25),
-	'rating' => 	 array('required' => true,  'type' => 'text',  		'maxlength' => 3),
+	'rating' => 	 array('required' => false,  'type' => 'text',  		'maxlength' => 3),
 	'popularity' =>  array('required' => false, 'type' => 'text',  		'maxlength' => 11),
-	'poster_flag' => array('required' => true,  'type' => 'checkbox',  	'maxlength' => 1)
+	'poster_flag' => array('required' => false,  'type' => 'checkbox',  	'maxlength' => 1)
 );
 
 foreach($fields as $field_name => $field_params) {
@@ -98,7 +98,7 @@ foreach($fields as $field_name => $field_params) {
 	<div class="form-group">
 		<label for="<?= $field_name ?>" class="col-sm-2 control-label"><?= $label ?></label>
 		<div class="col-sm-6">
-			<textarea id="<?= $field_name ?>" name="<?= $field_name ?>" class="form-control" placeholder="<?= $label ?>"><?= $$field_name ?></textarea>
+			<textarea id="<?= $field_name ?>" name="<?= $field_name ?>" class="form-control" placeholder="<?= $label ?>" rows="5" style="resize: none;"><?= $$field_name ?></textarea>
 		</div>
 	</div>
 	<?php } else if ($type == 'checkbox') { ?>
