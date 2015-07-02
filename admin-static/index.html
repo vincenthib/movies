@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="../../favicon.ico">
+
+	<title>Espace d'administration</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="js/holder.js"></script>
+	<!--
+	<script src="js/jquery.hotkeys.js"></script>
+	<script src="js/bootstrap-wysiwyg.js"></script>
+	-->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link href="css/styles.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.php">Backoffice Movies</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="index.php">Tableau de bord</a></li>
+					<li><a href="settings.php">Paramètres</a></li>
+					<li><a href="profile.php">Profile</a></li>
+					<li><a href="../index.php">Site</a></li>
+					<li><a href="logout.php">Déconnexion</a></li>
+				</ul>
+				<!--
+				<form class="navbar-form navbar-right">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button>
+						</span>
+					</div>
+				</form>
+				-->
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+
+		<div class="row">
+
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1 class="page-header">Tableau de bord</h1>
+
+				<div class="row placeholders">
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<img data-src="holder.js/200x200/auto/sky/text:4321 \n films" class="img-responsive" alt="Generic placeholder thumbnail">
+						<h4>Nombre de films</h4>
+						<span class="text-muted">4321</span>
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<img data-src="holder.js/200x200/auto/vine/text:15 \n inscriptions" class="img-responsive" alt="Generic placeholder thumbnail">
+						<h4>Nombre d'inscriptions</h4>
+						<span class="text-muted">15</span>
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<img data-src="holder.js/200x200/auto/social/text:42 \n commentaires" class="img-responsive" alt="Generic placeholder thumbnail">
+						<h4>Nombre de commentaires</h4>
+						<span class="text-muted">42</span>
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<img data-src="holder.js/200x200/auto/#5bc0de:#fff/text:18 \n messages" class="img-responsive" alt="Generic placeholder thumbnail">
+						<h4>Nombre de messages</h4>
+						<span class="text-muted">18</span>
+					</div>
+				</div>
+
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<h3 class="panel-title">Derniers messages</h3>
+					</div>
+					<div class="list-group">
+						<a href="#" class="list-group-item">
+							<h4 class="list-group-item-heading">Bob Arctor (2015/02/26)</h4>
+							<p class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacinia pharetra est at auctor. Integer maximus neque sodales metus congue, quis aliquet nisl rhoncus...</p>
+						</a>
+						<a href="#" class="list-group-item">
+							<h4 class="list-group-item-heading">Johnny John (2015/02/15)</h4>
+							<p class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacinia pharetra est at auctor. Integer maximus neque sodales metus congue, quis aliquet nisl rhoncus...</p>
+						</a>
+					</div>
+				</div>
+
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Derniers commentaires</h3>
+					</div>
+					<div class="list-group">
+						<a href="#" class="list-group-item">
+							<h4 class="list-group-item-heading">Sarah Connor (2015/02/26)</h4>
+							<p class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacinia pharetra est at auctor. Integer maximus neque sodales metus congue, quis aliquet nisl rhoncus...</p>
+						</a>
+						<a href="#" class="list-group-item">
+							<h4 class="list-group-item-heading">Bobby Ewing (2015/02/15)</h4>
+							<p class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacinia pharetra est at auctor. Integer maximus neque sodales metus congue, quis aliquet nisl rhoncus...</p>
+						</a>
+					</div>
+				</div>
+
+			</div>
+
+			<div id="sidebar-left" class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="index.php">Tableau de bord</a></li>
+					<li><a href="stats.php">Statistiques</a></li>
+					<li><a href="reports.php">Rapports</a></li>
+					<li><a href="movies.php">Films</a></li>
+					<li><a href="users.php">Utilisateurs</a></li>
+					<li><a href="comments.php">Commentaires</a></li>
+					<li><a href="messages.php">Messages</a></li>
+				</ul>
+
+				<a href="javascript:void(0);" onclick="jQuery('#sidebar-left').hide();">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+			</div>
+
+		</div><!--/.row -->
+
+	</div><!--/.container -->
+
+</body>
+</html>
