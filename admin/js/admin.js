@@ -2,6 +2,15 @@ var admin = {
 
 	init: function() {
 
+		$('.btn-delete-movie').unbind('click').click(function() {
+
+			var title = $(this).data('title');
+
+			if (confirm('Etes-vous sur de vouloir supprimer le film \''+escape(title)+'\' ')) {
+				location.href = $(this).attr('href');
+			}
+		});
+
 		$('#btn-sidebar-collapse').unbind('click').click(function() {
 			if ($(this).hasClass('collapsed')) {
 				$('#sidebar-left').show();
