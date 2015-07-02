@@ -1,12 +1,32 @@
 <?php
 include_once 'header.php';
 
+$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+$action = !empty($_GET['action']) ? $_GET['action'] : 'add';
+
 /*
 $desc = $db->query('DESC movies')->fetchAll();
 foreach($desc as $key => $field) {
 	echo $field['Field'].'|'.$field['Null'].'|'.$field['Type'].'<br>';
 }
 */
+
+if ($action == 'delete' && !empty($id)) {
+
+	$query = $db->prepare('DELETE FROM movies WHERE id = :id');
+	$query->bindValue('id', $id, PDO::PARAM_INT);
+	$query->execute();
+	$result = $query->rowCount();
+
+	if (empty($result)) {
+		echo '<div class="alert alert-danger" role="danger">Une erreur est survenue</div>';
+	} else {
+		echo '<div class="alert alert-success" role="success">Le film a bien été supprimé</div>';
+		echo redirectJs('movies.php');
+	}
+	goto end;
+}
+
 
 $fields = array(
 	'slug' => 		 array('required' => false, 'type' => 'text',  		'maxlength' => 255),
@@ -19,13 +39,30 @@ $fields = array(
 	'writers' => 	 array('required' => false, 'type' => 'text',  		'maxlength' => 255),
 	'runtime' => 	 array('required' => false, 'type' => 'text',  		'maxlength' => 11, 'label' => 'duration'),
 	'mpaa' => 		 array('required' => false, 'type' => 'text',  		'maxlength' => 25),
-	'rating' => 	 array('required' => false,  'type' => 'text',  		'maxlength' => 3),
+	'rating' => 	 array('required' => false,  'type' => 'text',  		'maxlength' => 3, 'default' => 1),
 	'popularity' =>  array('required' => false, 'type' => 'text',  		'maxlength' => 11),
-	'poster_flag' => array('required' => false,  'type' => 'checkbox',  	'maxlength' => 1)
+	'poster_flag' => array('required' => false,  'type' => 'checkbox',  	'maxlength' => 1, 'default' => 1)
 );
 
+
+if ($action == 'update' && !empty($id)) {
+
+	$query = $db->prepare('SELECT * FROM movies WHERE id = :id');
+	$query->bindValue('id', $id, PDO::PARAM_INT);
+	$query->execute();
+	$movie = $query->fetch();
+
+	if (empty($movie)) {
+		exit('Undefined movie');
+	}
+}
+
 foreach($fields as $field_name => $field_params) {
-	$$field_name = !empty($_POST[$field_name]) ? $_POST[$field_name] : '';
+	$$field_name = !empty($_POST[$field_name]) ? $_POST[$field_name] : @$movie[$field_name];
+
+	if (empty($$field_name) && !empty($field_params['default'])) {
+		$$field_name = $field_params['default'];
+	}
 }
 
 $errors = array();
@@ -44,7 +81,13 @@ if (!empty($_POST)) {
 
 	if (empty($errors)) {
 
-		$query = $db->prepare('INSERT INTO movies SET slug = :slug, title = :title, year = :year, genres = :genres, synopsis = :synopsis, directors = :directors, actors = :actors, writers = :writers, runtime = :runtime, mpaa = :mpaa, rating = :rating, popularity = :popularity, poster_flag = :poster_flag, modified = NOW(), created = NOW()');
+		if ($action == 'update') {
+			$query = $db->prepare('UPDATE movies SET slug = :slug, title = :title, year = :year, genres = :genres, synopsis = :synopsis, directors = :directors, actors = :actors, writers = :writers, runtime = :runtime, mpaa = :mpaa, rating = :rating, popularity = :popularity, poster_flag = :poster_flag, modified = NOW() WHERE id = :id');
+			$query->bindValue('id', $id, PDO::PARAM_INT);
+		} else {
+			$query = $db->prepare('INSERT INTO movies SET slug = :slug, title = :title, year = :year, genres = :genres, synopsis = :synopsis, directors = :directors, actors = :actors, writers = :writers, runtime = :runtime, mpaa = :mpaa, rating = :rating, popularity = :popularity, poster_flag = :poster_flag, modified = NOW(), created = NOW()');
+		}
+
 		$query->bindValue('slug', $slug);
 		$query->bindValue('title', $title);
 		$query->bindValue('year', $year);
@@ -60,12 +103,16 @@ if (!empty($_POST)) {
 		$query->bindValue('poster_flag', $poster_flag);
 		$query->execute();
 
-		$result = $db->lastInsertId();
+		if ($action == 'update') {
+			$result = $query !== false && empty(intval($query->errorCode()));
+		} else {
+			$result = $db->lastInsertId();
+		}
 
 		if (empty($result)) {
 			echo '<div class="alert alert-danger" role="danger">Une erreur est survenue</div>';
 		} else {
-			echo '<div class="alert alert-success" role="success">Le film a bien été ajouté</div>';
+			echo '<div class="alert alert-success" role="success">Le film a bien été '.($action == 'update' ? 'modifié' : 'ajouté').'</div>';
 			echo redirectJs('movies.php');
 		}
 		goto end;
