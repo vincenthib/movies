@@ -1,3 +1,8 @@
+<?php
+require_once '../inc/config.php';
+require_once '../inc/func.php';
+require_once '../inc/db.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
