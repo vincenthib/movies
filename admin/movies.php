@@ -19,6 +19,14 @@ $movies = $query->fetchAll();
 ?>
 <h1>Liste des films</h1>
 
+<h3><?= $count_movies ?> film(s)</h3>
+
+<hr>
+
+<a href="update-movie.php" class="btn btn-primary">Ajouter un film</a>
+
+<hr>
+
 <?php include '../pagination.php' ?>
 
 <table class="table table-hover">
@@ -38,7 +46,11 @@ $movies = $query->fetchAll();
 			<td><img height="30" src="<?= getCover($movie['id']) ?>"></td>
 			<td><?= $movie['title'] ?></td>
 			<td><?= $movie['genres'] ?></td>
-			<td>-</td>
+			<td>
+				<a href="update-movie.php?id=<?= $movie['id'] ?>&action=update"><span class="glyphicon glyphicon-pencil"></span></a>
+				&nbsp;&nbsp;
+				<a href="update-movie.php?id=<?= $movie['id'] ?>&action=delete" onclick="return false" data-title="<?= $movie['title'] ?>" class='btn-delete-movie'><span class="glyphicon glyphicon-remove"></span></a>
+			</td>
 		</tr>
 		<?php } ?>
 	</tbody>
