@@ -11,11 +11,15 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="index.php">Tableau de bord</a></li>
-					<li><a href="settings.php">Paramètres</a></li>
-					<li><a href="profile.php">Profile</a></li>
-					<li><a href="../index.php">Site</a></li>
-					<li><a href="logout.php">Déconnexion</a></li>
+					<?php
+					foreach($admin_pages['navbar'] as $page_url => $page_name) {
+						$active = '';
+						if ($current_page == $page_url) {
+							$active = ' class="active"';
+						}
+					?>
+					<li<?= $active ?>><a href="<?= $page_url ?>"><?= $page_name ?></a></li>
+					<?php } ?>
 				</ul>
 				<!--
 				<form class="navbar-form navbar-right">
