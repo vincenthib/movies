@@ -8,8 +8,8 @@
 					<li><a href="comments.php">Commentaires</a></li>
 					<li><a href="messages.php">Messages</a></li>
 				</ul>
-
-				<a href="javascript:void(0);" onclick="jQuery('#sidebar-left').hide();">
-					<span class="glyphicon glyphicon-chevron-left"></span>
-				</a>
 			</div>
+
+			<a id="btn-sidebar-collapse" href="javascript:void(0);">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+			</a>
