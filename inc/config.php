@@ -30,5 +30,25 @@ $pages = array(
 	'contact.php' => 'Contact'
 );
 
+$admin_pages = array(
+	'navbar' => array(
+		'index.php' => 'Tableau de bord',
+		'settings.php' => 'Paramètres',
+		'profile.php' => 'Profile',
+		'../index.php' => 'Site',
+		'logout.php' => 'Déconnexion',
+	),
+	'sidebar' => array(
+		'index.php' => 'Tableau de bord',
+		'stats.php' => 'Statistiques',
+		'reports.php' => 'Rapports',
+		'movies.php' => 'Films',
+		'users.php' => 'Utilisateurs',
+		'comments.php' => 'Commentaires',
+		'messages.php' => 'Messages',
+	)
+);
+
+
 // On récupère la page en cours, $_SERVER['PHP_SELF'] renvoie le chemin en entier, basename permet de garder seulement le nom du fichier
 $current_page = basename($_SERVER['PHP_SELF']);
