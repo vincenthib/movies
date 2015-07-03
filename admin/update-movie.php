@@ -147,8 +147,11 @@ if (!empty($errors)) {
 ?>
 
 <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data" novalidate>
+<<<<<<< HEAD
 
 	<input type="hidden" name="MAX_FILE_SIZE" value="<?= MAX_UPLOAD_FILE_SIZE ?>">
+=======
+>>>>>>> 0a1f970c8a1958d9c5e9855f4af5fe8e86e109a0
 
 <?php
 foreach($fields as $field_name => $field_params) {
