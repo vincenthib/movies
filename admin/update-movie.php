@@ -11,6 +11,8 @@ foreach($desc as $key => $field) {
 }
 */
 
+debug($_FILES);
+
 if ($action == 'delete' && !empty($id)) {
 
 	$query = $db->prepare('DELETE FROM movies WHERE id = :id');
@@ -29,7 +31,7 @@ if ($action == 'delete' && !empty($id)) {
 
 
 $fields = array(
-	'slug' => 		 array('required' => false, 'type' => 'text',  		'maxlength' => 255),
+	'slug' => 		 array('required' => false, 'type' => 'text',  		'maxlength' => 255, 'default' => '-'),
 	'title' => 		 array('required' => true, 'type' => 'textarea',  	'maxlength' => 0, 'error' => 'Title is mandatory and must be 255 length max'),
 	'year' => 		 array('required' => true, 'type' => 'text',  		'maxlength' => 11),
 	'genres' => 	 array('required' => true, 'type' => 'text',  		'maxlength' => 255),
@@ -41,7 +43,8 @@ $fields = array(
 	'mpaa' => 		 array('required' => false, 'type' => 'text',  		'maxlength' => 25),
 	'rating' => 	 array('required' => false,  'type' => 'text',  		'maxlength' => 3, 'default' => 1),
 	'popularity' =>  array('required' => false, 'type' => 'text',  		'maxlength' => 11),
-	'poster_flag' => array('required' => false,  'type' => 'checkbox',  	'maxlength' => 1, 'default' => 1)
+	'poster_flag' => array('required' => false,  'type' => 'hidden',  	'maxlength' => 1, 'default' => 1),
+	'cover' => array('required' => false, 'type' => 'file')
 );
 
 
@@ -105,15 +108,32 @@ if (!empty($_POST)) {
 
 		if ($action == 'update') {
 			$result = $query !== false && empty(intval($query->errorCode()));
+			$id = $movie['id'];
 		} else {
-			$result = $db->lastInsertId();
+			$id = $result = $db->lastInsertId();
 		}
 
 		if (empty($result)) {
 			echo '<div class="alert alert-danger" role="danger">Une erreur est survenue</div>';
 		} else {
+
+			if (!empty($id)) {
+
+				$max_size = 2000000;
+
+				if (!empty($_FILES['cover']['tmp_name']) && empty($_FILES['cover']['error']) && $_FILES['cover']['size'] < $max_size) {
+
+					$file_infos = pathinfo($_FILES['cover']['name']);
+					$extension = $file_infos['extension'];
+
+					$filename = '../img/covers/'.$id.'.'.$extension;
+
+					move_uploaded_file($_FILES['cover']['tmp_name'], $filename);
+				}
+			}
+
 			echo '<div class="alert alert-success" role="success">Le film a bien été '.($action == 'update' ? 'modifié' : 'ajouté').'</div>';
-			echo redirectJs('movies.php');
+			//echo redirectJs('movies.php');
 		}
 		goto end;
 	}
@@ -128,14 +148,14 @@ if (!empty($errors)) {
 }
 ?>
 
-<form class="form-horizontal" action="" method="POST" novalidate>
+<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data" novalidate>
 
 <?php
 foreach($fields as $field_name => $field_params) {
 
 	$required = $field_params['required'];
 	$type = $field_params['type'];
-	$maxlength = $field_params['maxlength'];
+	$maxlength = !empty($field_params['maxlength']) ? intval($field_params['maxlength']) : 0;
 	$label = ucfirst(!empty($field_params['label']) ? $field_params['label'] : $field_name);
 
 	echo PHP_EOL;
@@ -159,10 +179,10 @@ foreach($fields as $field_name => $field_params) {
 		</div>
 	</div>
 	<?php } else { ?>
-	<div class="form-group">
+	<div class="form-group"<?= $type == 'hidden' ? ' style="display:none"' : '' ?>>
 		<label for="<?= $field_name ?>" class="col-sm-2 control-label"><?= $label ?></label>
 		<div class="col-sm-6">
-			<input type="text" id="<?= $field_name ?>" name="<?= $field_name ?>" class="form-control" placeholder="<?= $label ?>" value="<?= $$field_name ?>">
+			<input type="<?= $type ?>" id="<?= $field_name ?>" name="<?= $field_name ?>" class="form-control" placeholder="<?= $label ?>" value="<?= $$field_name ?>">
 		</div>
 	</div>
 	<?php
