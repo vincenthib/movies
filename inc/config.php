@@ -10,6 +10,8 @@ require __DIR__ . '/'.FACEBOOK_SDK_ROOT_PATH.'/autoload.php';
 define('FB_APP_ID', '');
 define('FB_APP_SECRET', '');
 
+define('MAX_UPLOAD_FILE_SIZE', 2097152);
+
 global $protocol, $domain, $current_dir, $root_path, $root_dir;
 $protocol = (@$_SERVER['HTTPS'] == 'on' ? 'https' : 'http');
 $domain = $_SERVER['HTTP_HOST'];
