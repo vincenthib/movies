@@ -31,8 +31,8 @@ define('FACEBOOK_SDK_ROOT_PATH', '/inc/facebook');
 define('FACEBOOK_SDK_V4_SRC_DIR', $root_dir.FACEBOOK_SDK_ROOT_PATH.'/src/Facebook/');
 require $root_dir .FACEBOOK_SDK_ROOT_PATH.'/autoload.php';
 
-define('FB_APP_ID', '911544085571972');
-define('FB_APP_SECRET', '7783da3269c3fd0925e796904703d867');
+define('FB_APP_ID', '');
+define('FB_APP_SECRET', '');
 
 define('MAX_UPLOAD_FILE_SIZE', 2097152);
 
