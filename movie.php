@@ -7,9 +7,6 @@ if (!isset($_GET['id'])) {
 
 $id = intval($_GET['id']);
 
-$query = $db->prepare('SELECT * FROM movies WHERE id = :id');
-$query->bindValue(':id', $id, PDO::PARAM_INT);
-$query->execute();
-$movie = $query->fetch();
+$movie = Movie::get($id);
 
 include_once 'movie-common.php';

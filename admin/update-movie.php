@@ -24,7 +24,7 @@ if ($action == 'delete' && !empty($id)) {
 		echo '<div class="alert alert-danger" role="danger">Une erreur est survenue</div>';
 	} else {
 		echo '<div class="alert alert-success" role="success">Le film a bien été supprimé</div>';
-		echo redirectJs('movies.php');
+		echo Utils::redirectJS('movies.php');
 	}
 	goto end;
 }
@@ -131,7 +131,7 @@ if (!empty($_POST)) {
 			}
 
 			echo '<div class="alert alert-success" role="success">Le film a bien été '.($action == 'update' ? 'modifié' : 'ajouté').'</div>';
-			//echo redirectJs('movies.php');
+			//echo Utils::redirectJS('movies.php');
 		}
 		goto end;
 	}

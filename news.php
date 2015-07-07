@@ -71,7 +71,7 @@ $news = $query->fetchAll();
 				<hr>
 				<blockquote>
 					<p>
-					<?= nl2br(cutString($article['news_text'], 100)) ?>
+					<?= nl2br(Utils::cutString($article['news_text'], 100)) ?>
 					</p>
 				</blockquote>
 

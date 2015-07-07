@@ -11,7 +11,7 @@
 
 							$year = date('Y', $time);
 							$month_en = strtolower(date('F', $time));
-							$month_fr = ucfirst(getMonthLabel($month_en));
+							$month_fr = ucfirst(Utils::getMonthLabel($month_en));
 							$date_label = $month_fr.' '.$year;
 							$date_value = date('Y-m', $time);
 						?>

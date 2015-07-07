@@ -136,7 +136,7 @@ if (!empty($_POST)) {
 				$_SESSION['firstname'] = $firstname;
 
 				echo '<div class="alert alert-success" role="success">Authentification réussie</div>';
-				echo redirectJS('index.php', 2);
+				echo Utils::redirectJS('index.php', 2);
 			}
 			goto end;
 		}

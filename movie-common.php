@@ -7,7 +7,7 @@ if (empty($movie)) {
 }
 
 // On récupère l'id du film sur lequel on se trouve
-$id = $movie['id'];
+$id = $movie->id;
 
 // Si le tableau des films visités n'existe pas
 if (!isset($_SESSION['movies'])) {
@@ -31,9 +31,9 @@ foreach($_movie_genres as $movie_genre) {
 	$movie_genres[$movie_genre['genre_label']] = $movie_genre['genre_name'];
 }
 
-$genres = explode(', ', $movie['genres']);
-$actors = explode(', ', $movie['actors']);
-$directors = explode(', ', $movie['directors']);
+$genres = explode(', ', $movie->genres);
+$actors = explode(', ', $movie->actors);
+$directors = explode(', ', $movie->directors);
 
 $back_link = 'index.php';
 if (!empty($_SERVER['HTTP_REFERER'])) {
@@ -48,12 +48,12 @@ if (!empty($_SERVER['HTTP_REFERER'])) {
 	<div class="col-xs-12 col-sm-9">
 		<div class="media">
 			<div class="media-left">
-				<img src="<?= getCover($movie['id']) ?>">
+				<img src="<?= $movie->getCover() ?>">
 			</div>
 			<div class="media-body">
-				<h2><?= $movie['title'] ?></h2>
+				<h2><?= $movie->getTitle() ?></h2>
 				<hr>
-				<p><strong>Date de sortie :</strong> <a href="search.php?year=<?= $movie['year'] ?>"><?= $movie['year'] ?></a> (<?= getDuration($movie['runtime']) ?>)</p>
+				<p><strong>Date de sortie :</strong> <a href="search.php?year=<?= $movie->getYear() ?>"><?= $movie->year ?></a> (<?= Utils::getDuration($movie->runtime) ?>)</p>
 				<p>
 					<strong>Genres :</strong>&nbsp;
 					<?php
@@ -79,7 +79,7 @@ if (!empty($_SERVER['HTTP_REFERER'])) {
 				<hr>
 				<blockquote>
 					<p>
-					<?= nl2br($movie['synopsis']) ?>
+					<?= nl2br($movie->synopsis) ?>
 					</p>
 				</blockquote>
 			</div>

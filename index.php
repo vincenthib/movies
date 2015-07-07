@@ -2,8 +2,11 @@
 require_once 'header.php';
 
 //$top_movies = array_slice($movies, 0, 8);
-$top_movies = $db->query('SELECT * FROM movies ORDER BY year DESC LIMIT 8')->fetchAll();
-$rand_movies = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 3')->fetchAll();
+//$top_movies = $db->query('SELECT * FROM movies ORDER BY year DESC LIMIT 8')->fetchAll();
+//$rand_movies = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 3')->fetchAll();
+
+$top_movies = Movie::getList(8, 'year DESC');
+$rand_movies = Movie::getList(3, 'RAND()');
 ?>
 		<div class="row">
 
@@ -21,11 +24,11 @@ $rand_movies = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 3')->fetch
 					<?php foreach ($rand_movies as $key => $movie) { ?>
 					<!-- BLOCK RANDOM MOVIE -->
 					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-						<img class="movie-thumbnail" src="<?= getCover($movie['id']) ?>" />
+						<img class="movie-thumbnail" src="<?= $movie->getCover() ?>" />
 						<div class="caption">
-							<h2><?= $movie['title'] ?></h2>
-							<p><?= cutString($movie['synopsis'], 100) ?></p>
-							<p><a class="btn btn-default" href="movie.php?id=<?= $movie['id'] ?>" role="button">Voir la fiche du film &raquo;</a></p>
+							<h2><?= $movie->title ?></h2>
+							<p><?= Utils::cutString($movie->synopsis, 100) ?></p>
+							<p><a class="btn btn-default" href="movie.php?id=<?= $movie->id ?>" role="button">Voir la fiche du film &raquo;</a></p>
 						</div>
 					</div>
 					<!-- END BLOCK RANDOM MOVIE -->
@@ -46,7 +49,7 @@ $rand_movies = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 3')->fetch
 				$result = $db->query('SELECT * FROM movies WHERE id IN ('.$movie_ids.')')->fetchAll();
 				$visited_movies = $_SESSION['movies'];
 				foreach($result as $key => $movie) {
-					$visited_movies[$movie['id']] = $movie;
+					$visited_movies[$movie->id] = $movie;
 				}
 				*/
 				?>
@@ -60,11 +63,11 @@ $rand_movies = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 3')->fetch
 					<!-- BLOCK VISITED MOVIE -->
 					<div class="top-movie col-xs-12 col-sm-6 col-md-4 col-lg-3">
 						<div class="thumbnail">
-							<img src="<?= getCover($movie['id']) ?>" />
+							<img src="<?= $movie->getCover() ?>" />
 							<div class="caption">
-								<h2><?= $movie['title'] ?></h2>
-								<p><?= cutString($movie['synopsis'], 100, '[...]') ?></p>
-								<p><a class="btn btn-default" href="movie.php?id=<?= $movie['id'] ?>" role="button">Voir la fiche du film &raquo;</a></p>
+								<h2><?= $movie->title ?></h2>
+								<p><?= Utils::cutString($movie->synopsis, 100, '[...]') ?></p>
+								<p><a class="btn btn-default" href="movie.php?id=<?= $movie->id ?>" role="button">Voir la fiche du film &raquo;</a></p>
 							</div>
 						</div>
 					</div>
@@ -82,11 +85,11 @@ $rand_movies = $db->query('SELECT * FROM movies ORDER BY RAND() LIMIT 3')->fetch
 					<!-- BLOCK TOP MOVIE -->
 					<div class="top-movie col-xs-12 col-sm-6 col-md-4 col-lg-3">
 						<div class="thumbnail">
-							<img src="<?= getCover($movie['id']) ?>" />
+							<img src="<?= $movie->getCover($movie->id) ?>" />
 							<div class="caption">
-								<h2><?= $movie['title'] ?></h2>
-								<p><?= cutString($movie['synopsis'], 100, '[...]') ?></p>
-								<p><a class="btn btn-default" href="movie.php?id=<?= $movie['id'] ?>" role="button">Voir la fiche du film &raquo;</a></p>
+								<h2><?= $movie->title ?></h2>
+								<p><?= Utils::cutString($movie->synopsis, 100, '[...]') ?></p>
+								<p><a class="btn btn-default" href="movie.php?id=<?= $movie->id ?>" role="button">Voir la fiche du film &raquo;</a></p>
 							</div>
 						</div>
 					</div>

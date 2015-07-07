@@ -15,6 +15,6 @@ setcookie('rememberme_data', false, 1);
 setcookie('rememberme_token', false, 1);
 
 echo '<div class="alert alert-success" role="success">Déconnexion réussie</div>';
-echo redirectJS('index.php', 2);
+echo Utils::redirectJS('index.php', 2);
 
 include_once 'footer.php';
