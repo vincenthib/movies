@@ -1,6 +1,8 @@
 <?php
 include_once 'header.php';
 
+$db = Db::getInstance();
+
 // On réceptionne un paramètre ?p= passé dans l'URL
 
 $page = !empty($_GET['p']) ? intval($_GET['p']) : 1;
@@ -185,6 +187,10 @@ if (!empty($_GET)) {
 		}
 	}
 
+	if (!empty($search_results)) {
+		$search_results = Movie::_getList($search_results);
+	}
+
 	// On calcul le nombre de pages et on arrondi à l'entier supérieur
 	$nb_pages = ceil($count_results / $nb_items_per_page);
 ?>
@@ -201,13 +207,13 @@ if (!empty($_GET)) {
 
 	foreach($search_results as $movie) {
 	?>
-	<a href="movie.php?id=<?= $movie['id'] ?>" class="list-group-item">
-		<img height="80" width="60" class="movie-cover" src="<?= getCover($movie['id']) ?>" align="left">
-		<h4 class="list-group-item-heading"><?= $movie['title'] ?> (<?= $movie['year'] ?>)</h4>
+	<a href="movie.php?id=<?= $movie->id ?>" class="list-group-item">
+		<img height="60" width="60" class="movie-cover" src="<?= $movie->getCover() ?>" align="left">
+		<h4 class="list-group-item-heading"><?= $movie->title ?> (<?= $movie->year ?>)</h4>
 		<p class="list-group-item-text">
-			<?= $movie['genres'] ?>
+			<?= $movie->genres ?>
 			<br>
-			<?= $movie['actors'] ?>
+			<?= $movie->actors ?>
 		</p>
 	</a>
 	<?php

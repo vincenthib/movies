@@ -11,6 +11,9 @@ $root_dir = str_replace(array('\\', 'inc'), array('/', ''), __DIR__);
 $root_path = $protocol.'://'.$domain.'/'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $root_dir);
 
 function class_autoload($class_name) {
+	if (strpos($class_name, 'Facebook') !== false) {
+		return false;
+	}
 	global $root_dir;
     $class_path = $root_dir.'class/'.$class_name.'.class.php';
     if (file_exists($class_path)) {
@@ -22,13 +25,14 @@ function class_autoload($class_name) {
 }
 spl_autoload_register('class_autoload', true, true);
 
-define('FACEBOOK_SDK_ROOT_PATH', 'facebook');
 
-define('FACEBOOK_SDK_V4_SRC_DIR', 'inc/'.FACEBOOK_SDK_ROOT_PATH.'/src/Facebook/');
-require __DIR__ . '/'.FACEBOOK_SDK_ROOT_PATH.'/autoload.php';
+define('FACEBOOK_SDK_ROOT_PATH', '/inc/facebook');
 
-define('FB_APP_ID', '');
-define('FB_APP_SECRET', '');
+define('FACEBOOK_SDK_V4_SRC_DIR', $root_dir.FACEBOOK_SDK_ROOT_PATH.'/src/Facebook/');
+require $root_dir .FACEBOOK_SDK_ROOT_PATH.'/autoload.php';
+
+define('FB_APP_ID', '911544085571972');
+define('FB_APP_SECRET', '7783da3269c3fd0925e796904703d867');
 
 define('MAX_UPLOAD_FILE_SIZE', 2097152);
 

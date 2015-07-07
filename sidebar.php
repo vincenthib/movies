@@ -2,8 +2,7 @@
 			$top_rating_movies = Movie::getList(5, 'rating DESC', 'id, title');
 			$most_recent_movies = Movie::getList(5, 'year DESC', 'id, title');
 			$random_movies = Movie::getList(5, 'RAND()', 'id, title');
-			$result = $db->query('SELECT news_id as id, news_title as title FROM news ORDER BY news_date DESC LIMIT 5')->fetchAll();
-			$last_news = json_decode (json_encode($result), false);
+			$last_news = Movie::_getList($db->query('SELECT news_id as id, news_title as title FROM news ORDER BY news_date DESC LIMIT 5')->fetchAll());
 			?>
 
 			<!-- SIDEBAR -->

@@ -25,7 +25,7 @@ class Movie {
         // Pour chaque élément du tableau $data
         foreach ($data as $key => $value) {
             // On défini une variable pour reconstituer le nom d'un setter avec la clé issue du tableau $data
-            $method = 'set'.ucfirst($key); // Ex: setTitle
+            $method = Utils::getCamelCase('set'.ucfirst($key)); // Ex: setTitle
 
             // Si le setter existe dans la classe
             if (method_exists($this, $method)) {
@@ -37,21 +37,21 @@ class Movie {
     }
 
     public function __set($key, $value) {
-		$method = 'set'.ucfirst($key); // setRace
+		$method = Utils::getCamelCase('set'.ucfirst($key)); // Ex: setTitle
 		if (method_exists($this, $method)) {
 			$this->$method($value);
 		}
 	}
 
 	public function __get($key) {
-		$method = 'get'.ucfirst($key); // getRace
+		$method = Utils::getCamelCase('get'.ucfirst($key)); // Ex: getTitle
 		if (method_exists($this, $method)) {
 			return $this->$method();
 		}
 	}
 
 
-	private static function _getList($result) {
+	public static function _getList($result) {
 		$movies = array();
 		foreach($result as $movie) {
 			$movies[] = new Movie($movie);
@@ -256,10 +256,10 @@ class Movie {
 		$query->bindValue('id', $movie->id, PDO::PARAM_INT);
 		$query->bindValue('limit', $limit, PDO::PARAM_INT);
 		$query->execute();
-		$movies = $query->fetchAll();
+		$result = $query->fetchAll();
 
 		// On renvoie les résultats de la requête
-		return $movies;
+		return self::_getList($result);;
 	}
 
 }

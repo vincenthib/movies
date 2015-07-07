@@ -122,8 +122,7 @@ if (!empty($_POST)) {
 	</div>
 </form>
 
-<<<<<<< HEAD
-=======
+
 <hr>
 
 <form class="form-horizontal" action="" method="POST" novalidate>
@@ -136,7 +135,6 @@ if (!empty($_POST)) {
 	</div>
 </form>
 
->>>>>>> b7481643b737bf134c64efbf386358be7a78342f
 <?php
 end:
 

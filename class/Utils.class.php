@@ -14,12 +14,16 @@ class Utils {
 		return $clean;
 	}
 
-	function getDuration($duration) {
+	public static function getDuration($duration) {
 
 		$hours = floor($duration / 60);
 		$minutes = sprintf('%1$02d', $duration % 60);
 
 		return $hours.'h'.$minutes.'min';
+	}
+
+	public static function getCamelCase($str) {
+		return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $str))));
 	}
 
 	/*

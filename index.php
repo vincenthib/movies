@@ -43,7 +43,7 @@ $rand_movies = Movie::getList(3, 'RAND()');
 				$movie_ids = implode(', ', $movie_ids_array);
 				$movie_ids_order = 'ORDER BY id = '.implode(' DESC, id = ', $movie_ids_array).' DESC';
 
-				$visited_movies = $db->query('SELECT * FROM movies WHERE id IN ('.$movie_ids.') '.$movie_ids_order)->fetchAll();
+				$visited_movies = Movie::_getList($db->query('SELECT * FROM movies WHERE id IN ('.$movie_ids.') '.$movie_ids_order)->fetchAll());
 
 				/*
 				$result = $db->query('SELECT * FROM movies WHERE id IN ('.$movie_ids.')')->fetchAll();
